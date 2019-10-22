@@ -1,0 +1,96 @@
+﻿@model TrainingProductViewModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.EventCommand)
+    if (Model.IsSearchAreaVisible)
+    {
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">Search for Products</h1>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.SearchEntity.ProductName)
+                    @Html.TextBoxFor(m => m.SearchEntity.ProductName, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button id="btnSearch" class="btn btn-sm btn-primary glyphicon glyphicon-search" data-psda-action="search">Search</button>
+                <button id="btnReset" class="btn btn-sm btn-primary glyphicon glyphicon-list-alt" data-psda-action="resetsearch">Reset</button>
+                <button id="btnReset" class="btn btn-sm btn-primary glyphicon glyphicon-plus-sign" data-psda-action="add">Add</button>
+            </div>
+        </div>
+    }
+
+    if (Model.IsAddAreaVisible)
+    {
+        @Html.HiddenFor(m => m.Mode)
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">Product Information</h1>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Entity.ProductName)
+                    @Html.EditorFor(m => m.Entity.ProductName, new{@class="form-control"})
+                    @Html.ValidationMessageFor(m => m.Entity.ProductName)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Entity.URL)
+                    @Html.EditorFor(m => m.Entity.URL, new{@class="form-control"})
+                    @Html.ValidationMessageFor(m => m.Entity.URL)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Entity.Price)
+                    @Html.EditorFor(m => m.Entity.Price, new{@class="form-control"})
+                    @Html.ValidationMessageFor(m => m.Entity.Price)
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button id="btnSave" class="btn btn-sm btn-primary" data-psda-action="save">Save</button>
+                <button id="btnCancel" class="btn btn-sm btn-primary" data-psda-action="canceladd" formnovalidate="formnovalidate">Cancel</button>
+            </div>
+        </div>
+    }
+
+    if (Model.IsListAreaVisible)
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tr>
+                    <th>Product Name</th>
+                    <th>Introduction Date</th>
+                    <th>URL</th>
+                    <th>Price</th>
+                </tr>
+                @foreach (TrainingProduct product in Model.Products)
+                {
+                    <tr>
+                        <td>
+                            @product.ProductName
+                        </td>
+                        <td>
+                            @product.IntroductionDate
+                        </td>
+                        <td>
+                            @product.URL
+
+                        </td>
+                        <td>
+                            @product.Price
+
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+
+}
+@section scripts{
+    @Scripts.Render(@"~\scripts\spatest.js");
+}
